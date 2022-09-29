@@ -13,7 +13,6 @@ import {UserContext} from "./context/Context";
 function App() {
   return (
     <>
-      <h1>Welcome to Bad Bank</h1>
       <HashRouter>
         <Navbar />
         <UserContext.Provider value={{users: [{name: "abel", email: "abel@mit.edu", password: "secret", balance: 100}]}}>
