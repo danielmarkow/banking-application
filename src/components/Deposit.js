@@ -4,6 +4,8 @@ import {useForm} from "react-hook-form";
 import {object, number} from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
+import toast, {Toaster} from "react-hot-toast";
+
 import Card from "./common/Card";
 import {UserContext} from "../context/Context";
 
@@ -14,12 +16,14 @@ const depositSchema = object({
 function Deposit() {
   const ctx = useContext(UserContext);
   // TODO create login context
-  const {register, handleSubmit, formState: {errors}} = useForm({
+  const {register, handleSubmit, reset, formState: {errors}} = useForm({
     resolver: yupResolver(depositSchema)
   });
 
   const processDeposit = (data) => {
     ctx.users[0].balance += data.deposit;
+    toast.success(`Successfully deposited $${data.deposit}`);
+    reset();
   };
 
   return (
@@ -29,6 +33,7 @@ function Deposit() {
           txtcolor="black"
           body={(
               <>
+                <Toaster />
                 Balance ${ctx.users[0].balance}
                 <form onSubmit={handleSubmit(processDeposit)}>
                   <label

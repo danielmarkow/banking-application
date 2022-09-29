@@ -4,6 +4,8 @@ import {useForm} from "react-hook-form";
 import {object, number} from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
+import toast, {Toaster} from "react-hot-toast";
+
 import Card from "./common/Card";
 import {UserContext} from "../context/Context";
 
@@ -15,12 +17,14 @@ function Withdraw() {
     withdraw: number().max(ctx.users[0].balance).required(),
   });
 
-  const {register, handleSubmit, formState: {errors}} = useForm({
+  const {register, handleSubmit, reset, formState: {errors}} = useForm({
     resolver: yupResolver(withdrawSchema)
   });
 
   const processWithdraw = (data) => {
     ctx.users[0].balance -= data.withdraw;
+    toast.success(`$${data.withdraw} successfully withdrawn!`);
+    reset();
   };
 
   return (
@@ -30,6 +34,7 @@ function Withdraw() {
           txtcolor="black"
           body={(
               <>
+                <Toaster />
                 Balance ${ctx.users[0].balance}
                 <form onSubmit={handleSubmit(processWithdraw)}>
                   <label
