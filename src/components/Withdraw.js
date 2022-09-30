@@ -17,8 +17,9 @@ function Withdraw() {
     withdraw: number().max(ctx.users[0].balance).required(),
   });
 
-  const {register, handleSubmit, reset, formState: {errors}} = useForm({
-    resolver: yupResolver(withdrawSchema)
+  const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
+    resolver: yupResolver(withdrawSchema),
+    mode: "onChange",
   });
 
   const processWithdraw = (data) => {
@@ -53,6 +54,7 @@ function Withdraw() {
                   <button
                     type="submit"
                     className="btn btn-light"
+                    disabled={!isValid}
                   >Withdraw</button>
                 </form>
               </>
