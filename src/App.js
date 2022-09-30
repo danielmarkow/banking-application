@@ -15,17 +15,20 @@ function App() {
     <>
       <HashRouter>
         <Navbar />
-        <UserContext.Provider value={{users: [{name: "abel", email: "abel@mit.edu", password: "secret", balance: 100}]}}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/create-account" element={<CreateAccount />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/deposit" element={<Deposit />} />
-            <Route path="/withdraw" element={<Withdraw />} />
-            <Route path="/balance" element={<Balance />} />
-            <Route path="/alldata" element={<Alldata />} />
-          </Routes>
-        </UserContext.Provider>
+        <br />
+        <div className="container">
+          <UserContext.Provider value={{users: [{name: "abel", email: "abel@mit.edu", password: "secret", balance: 100}]}}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/create-account" element={<CreateAccount />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/deposit" element={<Deposit />} />
+              <Route path="/withdraw" element={<Withdraw />} />
+              <Route path="/balance" element={<Balance />} />
+              <Route path="/alldata" element={<Alldata />} />
+            </Routes>
+          </UserContext.Provider>
+        </div>
       </HashRouter>
     </>
   );

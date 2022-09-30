@@ -16,8 +16,9 @@ const depositSchema = object({
 function Deposit() {
   const ctx = useContext(UserContext);
   // TODO create login context
-  const {register, handleSubmit, reset, formState: {errors}} = useForm({
-    resolver: yupResolver(depositSchema)
+  const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
+    resolver: yupResolver(depositSchema),
+    mode: "onChange",
   });
 
   const processDeposit = (data) => {
@@ -53,6 +54,7 @@ function Deposit() {
                   <button
                       type="submit"
                       className="btn btn-light"
+                      disabled={!isValid}
                   >Deposit</button>
                 </form>
               </>

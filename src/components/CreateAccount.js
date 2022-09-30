@@ -1,85 +1,93 @@
-import {useState, useContext} from "react";
-import {UserContext} from "../context/Context";
+import {useContext, useState} from "react";
+
+import {useForm} from "react-hook-form";
+import {object, string} from "yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 
 import Card from "./common/Card";
+import {UserContext} from "../context/Context";
 
-function CreateAccount() {
+const createAccountSchema = object({
+  name: string().required(),
+  email: string().email().required(),
+  password: string().min(8).required(),
+})
+
+
+function CreateAccount () {
   const [show, setShow] = useState(true);
-  const [status, setStatus] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
   const ctx = useContext(UserContext);
 
-  const validate = (field, label) => {
-    if (!field) {
-      setStatus("Error: " + label);
-      setTimeout(() => setStatus(""), 3000);
-      return false;
-    }
-    return true;
-  };
+  const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
+    resolver: yupResolver(createAccountSchema),
+    mode: "onChange",
+  });
 
-  const handleCreate = () => {
-    console.log(name,email,password);
-    if (!validate(name, "name")) return;
-    if (!validate(email, "email")) return;
-    if (!validate(password, "password")) return;
-    ctx.users.push({name, email, password, balance: 100});
+  const createAccount = (data) => {
+    // TODO check if user already exists
+    ctx.users.push({name: data.name, email: data.email, password: data.password, balance: 100});
     setShow(false);
   };
 
   const clearForm = () => {
-    setName("");
-    setEmail("");
-    setPassword("");
+    reset();
     setShow(true);
-  };
+  }
 
   return (
-    <Card
-      bgcolor="primary"
-      header="Create Account"
-      txtcolor="black"
-      status={status}
-      body={show ? (
-          <>
-            Name<br />
-            <input
-                type="input"
+      <Card
+        bgcolor="primary"
+        header="Create Account"
+        txtcolor="black"
+        body={show ? (
+            <form onSubmit={handleSubmit(createAccount)}>
+              <label
+                  className="form-label"
+                  htmlFor="name"
+              >Name</label>
+              <input
                 className="form-control"
                 id="name"
-                placeholder="Enter name"
-                value={name}
-                onChange={(e) => setName(e.currentTarget.value)}
-            /><br />
-            Email address<br />
-            <input
                 type="input"
-                className="form-control"
-                id="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.currentTarget.value)}
-            /><br />
-            Password<br />
-            <input
-                type="password"
-                className="form-control"
-                id="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.currentTarget.value)}
-            /><br />
-            <button type="submit" className="btn btn-light" onClick={handleCreate}>Create Account</button>
-          </>
-      ) : (
-          <>
-            <h5>Success</h5>
-            <button type="submit" className="btn btn-light" onClick={clearForm}>Add another Account</button>
-          </>
-      )}
-    />
+                {...register("name")}
+              />
+              <p>{errors.name?.message}</p>
+              <label
+                  className="form-label"
+                  htmlFor="email"
+              >Email</label>
+              <input
+                  className="form-control"
+                  id="email"
+                  type="input"
+                  {...register("email")}
+              />
+              <p>{errors.email?.message}</p>
+              <label
+                  className="form-label"
+                  htmlFor="password"
+              >Password</label>
+              <input
+                  className="form-control"
+                  id="password"
+                  type="password"
+                  {...register("password")}
+              />
+              <p>{errors.password?.message}</p>
+              <button
+                type="submit"
+                className="btn btn-light"
+                disabled={!isValid}
+              >Create Account</button>
+            </form>
+        ) : (
+            <>
+              <h5>Success</h5>
+              <button type="submit" className="btn btn-light" onClick={clearForm}>Add another Account</button>
+            </>
+        )}
+      />
   );
 }
 
