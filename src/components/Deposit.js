@@ -7,7 +7,8 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import toast, {Toaster} from "react-hot-toast";
 
 import Card from "./common/Card";
-import {UserContext} from "../context/Context";
+import {UserContext} from "../context/UserContext";
+import {LoginContext} from "../context/LoginContext";
 
 const depositSchema = object({
   deposit: number().min(0.01).required()
@@ -15,14 +16,20 @@ const depositSchema = object({
 
 function Deposit() {
   const ctx = useContext(UserContext);
-  // TODO create login context
+  const loginCtx = useContext(LoginContext);
+
   const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
     resolver: yupResolver(depositSchema),
     mode: "onChange",
   });
 
   const processDeposit = (data) => {
-    ctx.users[0].balance += data.deposit;
+    const userData = ctx.users.filter((user) => user.email === loginCtx.email)[0];
+    const newBal = userData.balance + data.deposit;
+    const newUserData = [{...userData, balance: newBal}];
+
+    ctx.users = ctx.users.map((user) => newUserData.find(u => u.email === user.email) || user);
+
     toast.success(`Successfully deposited $${data.deposit}`);
     reset();
   };
@@ -35,7 +42,7 @@ function Deposit() {
           body={(
               <>
                 <Toaster />
-                Balance ${ctx.users[0].balance}
+                Balance ${ctx.users.filter((user) => user.email === loginCtx.email)[0]?.balance}
                 <form onSubmit={handleSubmit(processDeposit)}>
                   <label
                       className="form-label"

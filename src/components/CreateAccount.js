@@ -5,7 +5,7 @@ import {object, string} from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
 import Card from "./common/Card";
-import {UserContext} from "../context/Context";
+import {UserContext} from "../context/UserContext";
 
 const createAccountSchema = object({
   name: string().required(),
