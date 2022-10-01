@@ -6,6 +6,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 
 import Card from "./common/Card";
 import {UserContext} from "../context/UserContext";
+import {LoginContext} from "../context/LoginContext";
 
 const createAccountSchema = object({
   name: string().required(),
@@ -18,6 +19,7 @@ function CreateAccount () {
   const [show, setShow] = useState(true);
 
   const ctx = useContext(UserContext);
+  const loginCtx = useContext(LoginContext);
 
   const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
     resolver: yupResolver(createAccountSchema),

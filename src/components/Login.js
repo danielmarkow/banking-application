@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext} from "react";
 
 import {useForm} from "react-hook-form";
 import {object, string} from "yup";
@@ -16,8 +16,6 @@ const loginSchema = object({
 });
 
 function Login() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
   const ctx = useContext(UserContext);
   const loginCtx = useContext(LoginContext)
 
@@ -32,7 +30,6 @@ function Login() {
         ).length !== 0
 
     if (userExists) {
-      setLoggedIn(true);
       loginCtx.email = data.email;
       console.log("logged in as ", loginCtx.email);
     } else {
@@ -46,7 +43,7 @@ function Login() {
             bgcolor="warning"
             header="Login"
             txtcolor="black"
-            body={!loggedIn ? (
+            body={(!loginCtx.email) ? (
                 <>
                   <Toaster />
                   <form onSubmit={handleSubmit(checkUser)}>
