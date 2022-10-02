@@ -28,7 +28,6 @@ function Card({header, title, text, body, bgcolor, txtcolor}) {
           {title && <h5 className="card-title">{title}</h5>}
           {text && <p className="card-text">{text}</p>}
           {body}
-          {/*{status && (<div id="createStatus">{status}</div>)}*/}
         </div>
         {loginCtx.email ? (
           <div className="card-footer">Logged in as: {loginCtx.email}
