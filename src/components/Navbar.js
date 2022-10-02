@@ -1,5 +1,7 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
+import {NavLink, Link} from "react-router-dom";
+
+import useAuth from "../hooks/useAuth";
 
 function Navbar() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);

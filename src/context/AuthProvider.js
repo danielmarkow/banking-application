@@ -1,6 +1,5 @@
 import {useState} from "react";
 
-// import {useNavigate, useLocation} from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
 import {users} from "../users";
@@ -8,8 +7,6 @@ import {AuthContext} from "./AuthContext";
 
 
 function AuthProvider({children}) {
-  // const navigate = useNavigate();
-  // const location = useLocation();
 
   const [token, setToken] = useState(null);
 
