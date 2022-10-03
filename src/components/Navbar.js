@@ -15,68 +15,72 @@ function Navbar() {
 
   return (
       <>
-        <nav className="navbar navbar-expand-lg bg-light">
-          <div className="container-fluid">
-            <Link
-                className="navbar-brand"
-                to="/"
-                title="Banking Application Homepage"
-            >Banking Application</Link>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation" onClick={handleNavCollapse}>
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNav">
+        <nav
+            className="navbar navbar-light navbar-expand-md justify-content-center"
+            style={{backgroundColor: "#DFE0E2"}}
+        >
+          <Link
+              to="/"
+              className="navbar-brand d-flex w-50 mr-auto"
+              title="Banking Application Homepage"
+          >Banking Application</Link>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3" onClick={handleNavCollapse}>
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse w-100`} id="navbarNav">
+            <ul className="navbar-nav w-100 justify-content-center">
+              <li className="nav-item">
+                <Link
+                    className="nav-link"
+                    to="/"
+                    title="Homepage of the banking application"
+                >Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                    className="nav-link"
+                    to="/create-account"
+                    title="Create a new account"
+                >Create Account</Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                    className="nav-link"
+                    to="/withdraw"
+                    title="Withdraw funds from bank account"
+                >Withdraw</Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                    className="nav-link"
+                    to="/deposit"
+                    title="Deposit funds to bank account"
+                >Deposit</Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                    className="nav-link"
+                    to="/alldata"
+                    title="Show all data of the application"
+                >All Data</Link>
+              </li>
+            </ul>
+            <ul className="nav navbar-nav ml-auto w-100 justify-content-end">
               {token ? (
-                  <button
-                      className="btn btn-danger"
-                      onClick={onLogout}
-                  >Log out</button>
-              ) : (
-                  <button
-                      className="btn btn-primary"
-                      onClick={() => navigate("/login")}
-                  >Login</button>
-              )
+                    <button
+                        className="btn"
+                        style={{backgroundColor: "#EB5160", marginRight: "1vw"}}
+                        onClick={onLogout}
+                    >Log out</button>
+                ) : (
+                    <button
+                        className="btn"
+                        style={{backgroundColor: "#EB5160", marginRight: "1vw"}}
+                        onClick={() => navigate("/login")}
+                    >Login</button>
+                )
               }
-              <ul className="navbar-nav">
-                <li className="nav-item">
-                  <Link
-                      className="nav-link"
-                      to="/"
-                      title="Create a new account"
-                  >Home</Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                      className="nav-link"
-                      to="/create-account"
-                      title="Create a new account"
-                  >Create Account</Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                      className="nav-link"
-                      to="/deposit"
-                      title="Deposit funds to bank account"
-                  >Deposit</Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                      className="nav-link"
-                      to="/withdraw"
-                      title="Withdraw funds from your bank account"
-                  >Withdraw</Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                      className="nav-link"
-                      to="/alldata"
-                      title="Show all data of the application"
-                  >All Data</Link>
-                </li>
-              </ul>
-            </div>
+            </ul>
           </div>
         </nav>
       </>
