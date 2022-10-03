@@ -1,11 +1,6 @@
-import {useContext} from "react";
-
 import Card from "./common/Card";
 
-import {LoginContext} from "../context/LoginContext";
-
 function Home() {
-  const loginCtx = useContext(LoginContext);
 
   return (
     <Card

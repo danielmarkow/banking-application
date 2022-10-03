@@ -1,10 +1,14 @@
 import {useState} from "react";
-import {NavLink, Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 
 function Navbar() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
+  const {token, onLogout} = useAuth();
+
+  const navigate = useNavigate();
 
   // https://johnotu.medium.com/how-to-toggle-bootstrap-navbar-collapse-button-in-react-without-jquery-1d5c2fb0751c
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
@@ -23,6 +27,18 @@ function Navbar() {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNav">
+              {token ? (
+                  <button
+                      className="btn btn-danger"
+                      onClick={onLogout}
+                  >Log out</button>
+              ) : (
+                  <button
+                      className="btn btn-primary"
+                      onClick={() => navigate("/login")}
+                  >Login</button>
+              )
+              }
               <ul className="navbar-nav">
                 <li className="nav-item">
                   <Link
@@ -37,13 +53,6 @@ function Navbar() {
                       to="/create-account"
                       title="Create a new account"
                   >Create Account</Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                      className="nav-link"
-                      to="/login"
-                      title="Login to your account"
-                  >Login</Link>
                 </li>
                 <li className="nav-item">
                   <Link

@@ -1,14 +1,9 @@
-import {useContext} from "react";
-
 import {useForm} from "react-hook-form";
 import {object, string} from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
-import toast, {Toaster} from "react-hot-toast";
-
 import Card from "./common/Card";
-import {UserContext} from "../context/UserContext";
-import {LoginContext} from "../context/LoginContext";
+import useAuth from "../hooks/useAuth";
 
 const loginSchema = object({
   email: string().email().required(),
@@ -16,37 +11,25 @@ const loginSchema = object({
 });
 
 function Login() {
-  const ctx = useContext(UserContext);
-  const loginCtx = useContext(LoginContext)
+  const {token, onLogin} = useAuth();
 
   const {register, handleSubmit, formState: {errors}} = useForm({
     resolver: yupResolver(loginSchema)
   });
 
-  const checkUser = (data) => {
-    const userExists = ctx.users
-        .filter((u) =>
-            u.email === data.email && u.password === data.password
-        ).length !== 0
-
-    if (userExists) {
-      loginCtx.email = data.email;
-      console.log("logged in as ", loginCtx.email);
-    } else {
-      toast.error("Could not login!")
-    }
+  const onSubmit = (data) => {
+    // TODO toaster message on failure
+    onLogin(data)
   }
-
   return (
       <>
         <Card
             bgcolor="warning"
             header="Login"
             txtcolor="black"
-            body={(!loginCtx.email) ? (
+            body={!token ? (
                 <>
-                  <Toaster />
-                  <form onSubmit={handleSubmit(checkUser)}>
+                  <form onSubmit={handleSubmit(onSubmit)}>
                     <label
                         htmlFor="email"
                         className="form-label"

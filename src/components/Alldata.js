@@ -1,8 +1,6 @@
-import {useContext} from "react";
-import {UserContext} from "../context/UserContext";
+import {users} from "../users";
 
 function Alldata() {
-    const ctx = useContext(UserContext);
 
     return (
         <div className="card">
@@ -21,7 +19,7 @@ function Alldata() {
                   </tr>
                 </thead>
                 <tbody>
-                  {ctx.users.map((user, i) => (
+                  {users.map((user, i) => (
                       <tr key={i}>
                         <th scope="row">{i + 1}</th>
                         <td>{user.name}</td>
