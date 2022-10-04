@@ -1,20 +1,17 @@
-import {useContext} from "react";
-
 import {useForm} from "react-hook-form";
 import {object, number} from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
 import toast, {Toaster} from "react-hot-toast";
 
+import useAuth from "../hooks/useAuth";
 import Card from "./common/Card";
-import {UserContext} from "../context/Context";
-
 
 function Withdraw() {
-  const ctx = useContext(UserContext);
+  const {token, userdata} = useAuth();
 
   const withdrawSchema = object({
-    withdraw: number().max(ctx.users[0].balance).required(),
+    withdraw: number().max(userdata.balance).required(),
   });
 
   const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
@@ -23,7 +20,7 @@ function Withdraw() {
   });
 
   const processWithdraw = (data) => {
-    ctx.users[0].balance -= data.withdraw;
+    userdata.balance -= data.withdraw;
     toast.success(`$${data.withdraw} successfully withdrawn!`);
     reset();
   };
@@ -36,7 +33,7 @@ function Withdraw() {
           body={(
               <>
                 <Toaster />
-                Balance ${ctx.users[0].balance}
+                Balance ${userdata.balance}
                 <form onSubmit={handleSubmit(processWithdraw)}>
                   <label
                       htmlFor="withdraw"

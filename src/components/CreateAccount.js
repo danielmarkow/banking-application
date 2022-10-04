@@ -1,11 +1,10 @@
-import {useContext, useState} from "react";
-
 import {useForm} from "react-hook-form";
 import {object, string} from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
+import useAuth from "../hooks/useAuth";
 import Card from "./common/Card";
-import {UserContext} from "../context/Context";
+import {useState} from "react";
 
 const createAccountSchema = object({
   name: string().required(),
@@ -17,31 +16,26 @@ const createAccountSchema = object({
 function CreateAccount () {
   const [show, setShow] = useState(true);
 
-  const ctx = useContext(UserContext);
+  const {onUserCreate} = useAuth();
 
   const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
     resolver: yupResolver(createAccountSchema),
     mode: "onChange",
   });
 
-  const createAccount = (data) => {
-    // TODO check if user already exists
-    ctx.users.push({name: data.name, email: data.email, password: data.password, balance: 100});
+  const createUser = (data) => {
+    onUserCreate(data);
     setShow(false);
-  };
-
-  const clearForm = () => {
     reset();
-    setShow(true);
   }
 
   return (
       <Card
-        bgcolor="primary"
+        bgcolor=""
         header="Create Account"
         txtcolor="black"
         body={show ? (
-            <form onSubmit={handleSubmit(createAccount)}>
+            <form onSubmit={handleSubmit(createUser)}>
               <label
                   className="form-label"
                   htmlFor="name"
@@ -84,7 +78,7 @@ function CreateAccount () {
         ) : (
             <>
               <h5>Success</h5>
-              <button type="submit" className="btn btn-light" onClick={clearForm}>Add another Account</button>
+              <button type="submit" className="btn btn-light" onClick={() => setShow(true)}>Add another Account</button>
             </>
         )}
       />
