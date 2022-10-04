@@ -14,7 +14,7 @@ const depositSchema = object({
 function Deposit() {
   const {userdata} = useAuth();
 
-  const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
+  const {register, handleSubmit, reset, formState: {errors, isValid, isDirty}} = useForm({
     resolver: yupResolver(depositSchema),
     mode: "onChange",
   });
@@ -32,7 +32,7 @@ function Deposit() {
           txtcolor="black"
           body={(
               <>
-                <Toaster />
+                <Toaster position="top-left" />
                 Balance ${userdata.balance}
                 <form onSubmit={handleSubmit(processDeposit)}>
                   <label
@@ -52,7 +52,7 @@ function Deposit() {
                   <button
                       type="submit"
                       className="btn btn-light"
-                      disabled={!isValid}
+                      disabled={!isValid && !isDirty}
                   >Deposit</button>
                 </form>
               </>

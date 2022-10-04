@@ -14,7 +14,7 @@ function Withdraw() {
     withdraw: number().max(userdata.balance).required(),
   });
 
-  const {register, handleSubmit, reset, formState: {errors, isValid}} = useForm({
+  const {register, handleSubmit, reset, formState: {errors, isValid, isDirty}} = useForm({
     resolver: yupResolver(withdrawSchema),
     mode: "onChange",
   });
@@ -32,7 +32,7 @@ function Withdraw() {
           txtcolor="black"
           body={(
               <>
-                <Toaster />
+                <Toaster position="top-left" />
                 Balance ${userdata.balance}
                 <form onSubmit={handleSubmit(processWithdraw)}>
                   <label
@@ -51,7 +51,7 @@ function Withdraw() {
                   <button
                     type="submit"
                     className="btn btn-light"
-                    disabled={!isValid}
+                    disabled={!isValid && !isDirty}
                   >Withdraw</button>
                 </form>
               </>
