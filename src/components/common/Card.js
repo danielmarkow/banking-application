@@ -1,17 +1,7 @@
-import {useNavigate} from "react-router-dom";
-
-function Card({header, title, text, body, bgcolor, txtcolor}) {
-
-  const navigate = useNavigate();
-
-  const classes = () => {
-    const bg =  bgcolor ? " bg-" + bgcolor : " ";
-    const txt = txtcolor ? " text-" + txtcolor : " text-white";
-    return "card mb-3" + bg + txt;
-  };
+function Card({header, title, text, body}) {
 
   return (
-      <div className={classes()} style={{maxWidth: "18rem"}}>
+      <div className="card mx-auto" style={{maxWidth: "23rem"}}>
         <div className="card-header">
           {header}
         </div>

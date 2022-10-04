@@ -39,6 +39,7 @@ function Navbar() {
               <li className="nav-item">
                 <Link
                     className="nav-link"
+                    style={{whiteSpace: "nowrap"}}
                     to="/create-account"
                     title="Create a new account"
                 >Create Account</Link>
@@ -60,6 +61,7 @@ function Navbar() {
               <li className="nav-item">
                 <Link
                     className="nav-link"
+                    style={{whiteSpace: "nowrap"}}
                     to="/alldata"
                     title="Show all data of the application"
                 >All Data</Link>
